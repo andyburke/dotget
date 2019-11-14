@@ -1,0 +1,23 @@
+{
+  "name": "dotget",
+  "version": "1.0.0",
+  "description": "Get environment variables from your .env from the command line.",
+  "bin": "index.js",
+  "scripts": {
+    "test": "jest --verbose=true"
+  },
+  "keywords": [
+    "dotenv"
+  ],
+  "author": "Andy Burke <andy.burke@mailbox.earth>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^4.0.1",
+    "dotenv": "^8.2.0",
+    "dotenv-expand": "^5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "jest": "^24.9.0"
+  }
+}
