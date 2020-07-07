@@ -8,29 +8,37 @@ const path = require( 'path' );
 
 let variable = null;
 
-program
-	.name( pkg.name )
+const dotget = program
+	.exitOverride( ( error ) => {
+		switch( error.code ) {
+			case 'commander.missingArgument':
+				dotget.help();
+				break;
+			case 'commander.help':
+			case 'commander.helpDisplayed':
+				break;
+			default:
+				throw error;
+		}
+
+		process.exit( typeof error.exitCode === 'number' ? error.exitCode : 1 );
+	} )
+	.name( 'dotget' )
 	.version( pkg.version )
 	.usage( '[-f/--file <filename>[, -f/--file <additional filename> ...]] <variable name>' )
-	.option( '-f, --file <filename>', 'specify one or more .env files to ingest', ( value, previous ) => { return previous.concat( [ value ] ); }, [] )
+	.option( '-f, --file <filename>', 'specify one or more .env files to ingest', ( value, previous ) => previous.concat( [ value ] ), [] )
 	.arguments( '<variable>' )
-	.action( arg => {
+	.action( ( arg ) => {
 		variable = arg;
-	} )
-	.parse( process.argv );
+	} );
 
-if ( typeof variable !== 'string' ) {
-	console.error( 'You must specify a variable name to get!' );
-	console.log( '' );
-	process.exitCode = 1;
-	program.help();
-}
+dotget.parse( process.argv );
 
 if ( !Array.isArray( program.file ) || program.file.length === 0 ) {
 	program.file = [ '.env' ];
 }
 
-program.file.forEach( file => {
+program.file.forEach( ( file ) => {
 	dotenv_expand( dotenv.config( {
 		path: path.resolve( file )
 	} ) );

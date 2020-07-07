@@ -1,12 +1,12 @@
 {
   "name": "@andyburke/dotget",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Get environment variables from your .env from the command line.",
   "bin": {
     "dotget": "index.js"
   },
   "scripts": {
-    "test": "jest --verbose=true"
+    "test": "node test/tests.js"
   },
   "keywords": [
     "dotenv"
@@ -14,13 +14,13 @@
   "author": "Andy Burke <andy.burke@mailbox.earth>",
   "license": "MIT",
   "dependencies": {
-    "commander": "^4.0.1",
+    "commander": "^5.1.0",
     "dotenv": "^8.2.0",
     "dotenv-expand": "^5.1.0"
   },
   "devDependencies": {
-    "eslint": "^6.6.0",
-    "jest": "^24.9.0"
+    "baretest": "andyburke-forks/baretest#tap",
+    "eslint": "^7.4.0"
   },
   "repository": "github:andyburke/dotget"
 }

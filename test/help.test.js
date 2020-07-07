@@ -1,20 +1,26 @@
+const assert = require( 'assert' );
 const child_process = require( 'child_process' );
 
-describe( 'help', () => {
-	it( 'should output help when --help is specified', () => {
+module.exports = ( test ) => {
+	test.group( 'help' );
+
+	test( 'should output help when --help is specified', () => {
 		const result = child_process.execSync( 'node index.js --help' ).toString();
-
-		expect( result ).toMatch( /Usage/ );
+	
+		assert.match( result, /Usage/ );
 	} );
-
-	it( 'should display help if <variable> argument is missing', () => {
+	
+	test( 'should display help if <variable> argument is missing', () => {
 		try {
-			child_process.execSync( 'node index.js' );
+			child_process.execSync( 'node index.js', {
+				stdio: 'ignore'
+			} );
 		}
 		catch ( error ) {
-			expect( error.status ).toBe( 1 );
-			expect( error.stderr.toString() ).toMatch( /You must specify a variable name to get/ );
-			expect( error.stdout.toString() ).toMatch( /Usage/ );
+			assert.equal( error.status, 1 );
+			assert.match( error.stderr.toString(), /You must specify a variable name to get/ );
+			assert.match( error.stdout.toString(), /Usage/ );
 		}
 	} );
-} );
+
+};
